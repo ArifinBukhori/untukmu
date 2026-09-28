@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Kamu yang Spesial 🐾💖 | Snoopy Interactive</title>
+    <meta name="description" content="Web interaktif lucu bertema Snoopy khusus untuk seseorang yang spesial!">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Canvas Partikel Hati & Bintang Background -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Main Container -->
+    <div class="app-container">
+
+        <!-- 1. HERO SECTION -->
+        <section class="hero-section card-glass" id="hero">
+            <div class="snoopy-badge">
+                <i class="fa-solid fa-paw"></i> Special Message for You
+            </div>
+            
+            <div class="snoopy-img-container">
+                <img src="assets/snoopy_hero.png" alt="Snoopy Cute" class="snoopy-hero-img floating-anim">
+            </div>
+
+            <h1 class="hero-title">Halo Seseorang yang Spesial! <span class="heart-pulse">💖</span></h1>
+            
+            <p class="typewriter-text" id="typewriter"></p>
+
+            <div class="question-box">
+                <p class="question-text">Ada pesan rahasia dari Snoopy nih... mau buka sekarang? 🙈</p>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="btnYes">Mau Banget! 🥰</button>
+                    <button class="btn btn-secondary" id="btnNo">Nggak Ah 😜</button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 2. MAIN CONTENT AREA (Hidden initially, unlocked by btnYes) -->
+        <div class="main-content hidden" id="mainContent">
+
+            <!-- NAVIGATION SOUND TOGGLE -->
+            <div class="floating-controls">
+                <button class="icon-btn" id="soundToggle" title="Toggle Sound Effect">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button class="icon-btn" id="bgMusicToggle" title="Play Music">
+                    <i class="fa-solid fa-music"></i>
+                </button>
+            </div>
+
+            <!-- AUDIO PLAYER SECTION -->
+            <section class="music-card card-glass">
+                <div class="music-info">
+                    <div class="vinyl-disc" id="vinylDisc">
+                        <i class="fa-solid fa-compact-disc"></i>
+                    </div>
+                    <div class="track-details">
+                        <h4 id="songTitle">Lagu Favorit KITA 🎵</h4>
+                        <p id="songArtist">Snoopy & Woodstock Acoustic</p>
+                        <div class="equalizer-bars" id="equalizer">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="music-controls">
+                    <button class="control-btn" id="playAudioBtn">
+                        <i class="fa-solid fa-play" id="playIcon"></i>
+                    </button>
+                </div>
+                <!-- Audio element fallback -->
+                <audio id="bgAudio" loop src="assets/Backstreet_Boys_-_Shape_of_My_Heart_(mp3.pm).mp3"></audio>
+            </section>
+
+            <!-- 2. SENENG METER SLIDER SECTION (Khusus HTS) -->
+            <section class="section-card card-glass" id="senengMeterSection">
+                <div class="section-header">
+                    <img src="assets/snoopy_happy.png" alt="Snoopy Happy" class="section-icon-img">
+                    <h2>Seneng Meter 😃✨</h2>
+                </div>
+                <p class="section-desc">Seberapa seneng kamu kenal & chat sama aku hari ini?</p>
+
+                <div class="meter-box">
+                    <div class="meter-value-display">
+                        <span id="meterPercent">500</span>% <span id="meterEmoji">🥰</span>
+                    </div>
+
+                    <div class="slider-wrapper">
+                        <input type="range" id="senengSlider" min="100" max="1000000" step="500" value="500000">
+                    </div>
+
+                    <div class="meter-labels">
+                        <span>100% (Lumayan)</span>
+                        <span>1.000.000% (Seneng Banget!)</span>
+                    </div>
+
+                    <div class="meter-response-card" id="meterResponse">
+                        "Wah seneng banget! Tiap hari berasa lebih berwarana sejak ada kamu 🌈✨"
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 3. KOTAK KEJUTAN & KUPON HTS SECTION -->
+            <section class="section-card card-glass" id="giftSection">
+                <div class="section-header">
+                    <img src="assets/snoopy_gift.png" alt="Snoopy Gift" class="section-icon-img">
+                    <h2>Kotak Hadiah Spesial 🎁✨</h2>
+                </div>
+                <p class="section-desc">Klik kado di bawah untuk membuka kupon-kupon spesial kejutan dari aku!</p>
+
+                <div class="gift-box-wrapper">
+                    <div class="gift-box" id="giftBox">
+                        <div class="gift-lid">🎁</div>
+                        <div class="gift-body">Tap Untuk Buka!</div>
+                    </div>
+                </div>
+
+                <!-- Coupons Grid (Revealed on gift tap) -->
+                <div class="coupons-grid hidden" id="couponsGrid">
+                    
+                    <div class="coupon-card">
+                        <div class="coupon-badge">Special Coupon #1</div>
+                        <div class="coupon-icon">🧞‍♂️</div>
+                        <h3>Kupon Bebas Minta Apa Aja</h3>
+                        <p>Bisa ditukar dengan satu permintaan ngacak yang pengen banget kamu lakuin bareng!</p>
+                        <button class="btn-claim" onclick="claimCoupon('Bebas Minta Apa Aja')">Klaim Kupon 🎟️</button>
+                    </div>
+
+                    <div class="coupon-card">
+                        <div class="coupon-badge">Special Coupon #2</div>
+                        <div class="coupon-icon">🍿</div>
+                        <h3>Kupon Nonton Bareng Virtual</h3>
+                        <p>Nobar film / series yang sama sambil call-an, biar berasa deket!</p>
+                        <button class="btn-claim" onclick="claimCoupon('Nonton Bareng Virtual')">Klaim Kupon 🎟️</button>
+                    </div>
+
+                    <div class="coupon-card">
+                        <div class="coupon-badge">Special Coupon #3</div>
+                        <div class="coupon-icon">📞</div>
+                        <h3>Kupon Late-Night Call</h3>
+                        <p>Teleponan santai malam hari sampai kamu ketiduran.</p>
+                        <button class="btn-claim" onclick="claimCoupon('Late-Night Call')">Klaim Kupon 🎟️</button>
+                    </div>
+
+                    <div class="coupon-card">
+                        <div class="coupon-badge">Special Coupon #4</div>
+                        <div class="coupon-icon">🎧</div>
+                        <h3>Kupon Pendengar Curhat 24/7</h3>
+                        <p>Siap mendengarkan semua cerita kamu tanpa omelan!</p>
+                        <button class="btn-claim" onclick="claimCoupon('Pendengar Curhat')">Klaim Kupon 🎟️</button>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- 4. POLAROID GALLERY SECTION -->
+            <section class="section-card card-glass" id="gallerySection">
+                <div class="section-header">
+                    <i class="fa-solid fa-camera-retro title-icon"></i>
+                    <h2>Momen Manis Snoopy 📸</h2>
+                </div>
+                <p class="section-desc">Beberapa momen & quote lucu untuk bikin harimu lebih ceria!</p>
+
+                <div class="polaroid-grid">
+                    
+                    <div class="polaroid-card">
+                        <div class="polaroid-img-box">
+                            <img src="assets/snoopy_hero.png" alt="Polaroid 1">
+                        </div>
+                        <p class="polaroid-caption">"Keep looking up... that's the secret of life! ☁️✨"</p>
+                    </div>
+
+                    <div class="polaroid-card">
+                        <div class="polaroid-img-box">
+                            <img src="assets/snoopy_happy.png" alt="Polaroid 2">
+                        </div>
+                        <p class="polaroid-caption">"Semoga harimu selalu penuh tawa ya! 🐾🥰"</p>
+                    </div>
+
+                    <div class="polaroid-card">
+                        <div class="polaroid-img-box">
+                            <img src="assets/snoopy_gift.png" alt="Polaroid 3">
+                        </div>
+                        <p class="polaroid-caption">"Makasih udah selalu bikin senang! 🎁💖"</p>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- 5. SURAT SURAT AMPLOP 3D SECTION -->
+            <section class="section-card card-glass" id="letterSection">
+                <div class="section-header">
+                    <img src="assets/snoopy_letter.png" alt="Snoopy Letter" class="section-icon-img">
+                    <h2>Surat Rahasia Dari Aku 💌</h2>
+                </div>
+                <p class="section-desc">Klik amplop di bawah ini untuk membaca suratnya...</p>
+
+                <div class="envelope-wrapper">
+                    <div class="envelope" id="envelopeBtn">
+                        <div class="envelope-flap"></div>
+                        <div class="envelope-pocket"></div>
+                        <div class="envelope-heart"><i class="fa-solid fa-heart"></i></div>
+                        <div class="envelope-text">Buka Surat 💌</div>
+                    </div>
+                </div>
+            </section>
+
+        </div> <!-- End main content -->
+
+
+        <!-- MODAL SURAT RAHASIA -->
+        <div class="modal-overlay hidden" id="letterModal">
+            <div class="modal-card card-glass">
+                <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+                <div class="modal-header">
+                    <img src="assets/snoopy_letter.png" alt="Letter Snoopy" class="modal-snoopy">
+                    <h3>Surat Rahasia Untuk Kamu 💌✨</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="letter-greeting">Hai kamu! 👋✨</p>
+                    <p class="letter-content">
+                        Aku cuma mau bilang kalau aku seneng banget bisa kenal dan sering ngobrol sama kamu.
+                    <br><br>
+                        Kehadiran kamu itu selalu berhasil bikin hari-hari aku terasa lebih seru dan berwarna. Makasih ya udah selalu jadi orang yang menyenangkan dan ramah!
+                    <br><br>
+                        Tetap semangat ya ngejalanin hari-harinya! Apapun yang lagi kamu kerjain atau usahain, aku yakin kamu pasti bisa melewatinya dengan baik. Jangan lupa jaga kesehatan dan istirahat yang cukup.
+                    <br><br>
+                        Semoga web kecil bertema Snoopy ini bisa bikin kamu tersenyum hari ini. Jangan lupa senyum ya! 🐾💖
+                    </p>
+                    <p class="letter-signature">Dari orang yang seneng chat sama kamu 🙈💫</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnModalClose">Kirim Senyuman Balik 😊</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>Dibuat dengan 💖 & Snoopy khusus untuk Seseorang yang Spesial 🐾</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
